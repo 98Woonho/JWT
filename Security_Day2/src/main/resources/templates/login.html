@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h1>LOGIN PAGE</h1>
+<form action="/login" method="post">
+    USERNAME : <input name="username"> <br/>
+    PASSWORD : <input name="password" type="password"> <br/>
+    <div>
+        <div>
+            <!-- check 하면 remember-me를 생성 -->
+            <input type="checkbox" name="remember-me" id="rememberME">
+            <label for="rememberME">로그인 상태를 유지</label>
+        </div>
+    </div>
+    <input type="submit" />
+    <!-- CustomAuthenticationFailureHandler에서 URL로 전달되는 error -->
+    <div th:text="${param.error}"></div>
+</form>
+</body>
+</html>

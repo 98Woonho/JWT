@@ -15,7 +15,7 @@ import java.io.IOException;
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     // 카카오 계정과 함께 로그아웃
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}") // [공부] @Value : property 값을 필드에 주입해주는 Annotation. @Value를 사용할려면 @Value를 사용하고 있는 메서드의 클래스가 Bean으로 등록이 되어 있어야 함.
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}") //  @Value : property 값을 필드에 주입해주는 Annotation. @Value를 사용할려면 @Value를 사용하고 있는 메서드의 클래스가 Bean으로 등록이 되어 있어야 함.
     private String kakaoClientId; // 로그아웃에 필요한 client_id(앱 REST KEY)
 
     private final String Redirect_Uri = "http://localhost:8080/login"; // 로그아웃에 필요한 logout_redirect_uri([내 애플리케이션] > [카카오 로그인] > [Logout Redirect URI]에 등록된 값 중 하나)

@@ -10,14 +10,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor // [공부] @AllArgsConstructor : 모든 인자를 받는 생성자. 단 파라미터 전달 순서는 선언한 순서로 정해짐.
-@NoArgsConstructor // [공부] @NoArgsConstructor : default 생성자
-@Data // [공부] @Data : getter, setter, equals, hashcode
-@Builder // [공부] @Builder : 생성자의 파라미터 순서가 바껴도 알아서 조정해줌.
-@Entity // [공부] @Entity : DB table에 User가 없으면 JPA가 알아서 만들어 줌
-@Table(name = "user") // [공부] @Table : table 이름 지정
+@AllArgsConstructor //  @AllArgsConstructor : 모든 인자를 받는 생성자. 단 파라미터 전달 순서는 선언한 순서로 정해짐.
+@NoArgsConstructor //  @NoArgsConstructor : default 생성자
+@Data //  @Data : getter, setter, equals, hashcode
+@Builder //  @Builder : 생성자의 파라미터 순서가 바껴도 알아서 조정해줌.
+@Entity //  @Entity : DB table에 User가 없으면 JPA가 알아서 만들어 줌
+@Table(name = "user") //  @Table : table 이름 지정
 public class User {
-    @Id // [공부] @Id : username을 PK로 지정
+    @Id //  @Id : username을 PK로 지정
     private String username;
     private String password;
     private String role;
@@ -41,4 +41,4 @@ public class User {
 }
 
 
-// [공부] @Column : 해당 열의 name, length 등 설정 가능
+//  @Column : 해당 열의 name, length 등 설정 가능

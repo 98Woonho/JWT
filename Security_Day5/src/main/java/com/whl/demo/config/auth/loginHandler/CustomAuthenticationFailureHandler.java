@@ -13,6 +13,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        System.out.println("Login Failed! : " + exception);
         response.sendRedirect("/login?error=" + URLEncoder.encode(exception.getMessage(), "UTF-8")); // exception.getMessage()가 한글이므로 UTF-8로 encoding
     }
 }

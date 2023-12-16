@@ -17,7 +17,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-
+    // Spring Security에서 사용자 인증 과정에서 호출됨.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("[PrincipalDetailsService] loadUserByUsername() username :" + username);
@@ -31,7 +31,7 @@ public class PrincipalDetailsService implements UserDetailsService {
         dto.setPassword(userOptional.get().getPassword());
         dto.setRole(userOptional.get().getRole());
 
-        return new PrincipalDetails(dto);
+        return new PrincipalDetails(dto); // 객체를 생성하고 반환함으로써 사용자 인증을 진행함.
     }
 
 }

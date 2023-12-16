@@ -39,6 +39,13 @@ public class SecurityConfig {
                 }
         );
 
+        // X-Frame-Option 비활성화(페이지 내에서 다른 페이지 로딩 금지)
+        http.headers(
+                headerConfig -> {
+                    headerConfig.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable());
+                }
+        );
+
         // 요청 URL별 접근 제한
         http.authorizeHttpRequests(
                 authorize -> {
@@ -75,9 +82,9 @@ public class SecurityConfig {
         http.logout(
                 logout -> {
                     logout.permitAll();
-                    logout.logoutUrl("/logout");
-                    logout.addLogoutHandler(new CustomLogoutHandler()); // 로그아웃 처리 Handler
-                    logout.logoutSuccessHandler(customLogoutSuccessHandler()); // 로그아웃 성공 시 Handler
+                    logout.logoutUrl("/logout"); // Post 방식으로 요청해야 함
+                    logout.addLogoutHandler(new CustomLogoutHandler()); // 로그아웃 처리 Handler (세션 초기화)
+                    logout.logoutSuccessHandler(customLogoutSuccessHandler()); // 로그아웃 성공 시 Handler (로그인 후 페이지 이동)
                 }
         );
 
@@ -92,11 +99,11 @@ public class SecurityConfig {
         // rememberMe
         http.rememberMe(
                 rm -> {
-                    rm.key("rememberMeKey");
-                    rm.rememberMeParameter("remember-me");
-                    rm.alwaysRemember(false);
-                    rm.tokenValiditySeconds(3600);
-                    rm.tokenRepository(tokenRepository());
+                    rm.key("rememberMeKey"); // Remember-Me 토큰 생성 시 사용되는 키 설정
+                    rm.rememberMeParameter("remember-me"); // 로그인 폼에서 Remember-Me 옵션을 나타내는 파라미터 이름 설정
+                    rm.alwaysRemember(false); // false로 설정된 경우, 사용자가 매번 로그인 할 때마다 Remember-Me를 선택해야 토큰이 생성됨.
+                    rm.tokenValiditySeconds(3600); // Remember-Me 토큰의 유효기간. 3600s
+                    rm.tokenRepository(tokenRepository()); //  Remember-Me 토큰을 저장하고 검색할 TokenRepository를 설정
                 }
         );
 
@@ -113,12 +120,12 @@ public class SecurityConfig {
     @Bean
     public PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-        // repo.setCreateTableOnStartup(true); // 테이블을 만들어주는 set. 이 코드 없이 resource/data.sql에 SQL문을 만들어놓으면 JPA가 알아서 sql 파일을 읽어서 SQL문을 실행해 줌.
+        // repo.setCreateTableOnStartup(true); // 테이블을 만들어주는 set. 이 코드 없이 resource/data.sql에 SQL문을 만들어놓으면 애플리케이션 시작 시점에 SQL문이 실행 되어서 테이블 생성 가능.
         repo.setDataSource(dataSource);
         return repo;
     }
 
-    // [공부] CustomLogoutSuccessHandler에서 @Value를 사용하고 싶은데 CustomLogoutSuccessHandler가 Bean으로 등록이 안 되어 있어서 사용을 못 함. 그래서 빈으로 등록.
+    //  CustomLogoutSuccessHandler에서 @Value를 사용하고 싶은데 CustomLogoutSuccessHandler가 Bean으로 등록이 안 되어 있어서 사용을 못 함. 그래서 빈으로 등록.
     @Bean
     public CustomLogoutSuccessHandler customLogoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();

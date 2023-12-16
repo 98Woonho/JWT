@@ -14,10 +14,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        System.out.println("CustomLoginSuccessHandler's onAuthenticationSuccess! ");
+
+        // Collection<? extends GrantedAuthority> : 제네릭으로 `GrantedAuthority`를 확장하는 어떤 객체든 담을 수 있음. `GrantedAuthority`는 Spring Security에서 권한을 나타내는 인터페이스
         Collection<? extends GrantedAuthority> collection = authentication.getAuthorities();
         collection.forEach(
                 (role) -> {
-                    // System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess role : " + role); 로그인 시 넘어오는 role 테스트
+                    System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess role : " + role.getAuthority());
                     String role_str = role.getAuthority();
                     try {
                         if(role_str.equals("ROLE_USER")) {
